@@ -13,6 +13,7 @@ restService.post('/hook', function (req, res) {
 
     try {
         var speech = 'empty speech';
+        
         var now = new time.Date();
         var hour = now.setTimezone("America/Chicago").getHours();
         var action = ['coverage.speedingTickets'];
