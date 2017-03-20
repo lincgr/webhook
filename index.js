@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-
+var time = require('time');
 const restService = express();
 restService.use(bodyParser.json());
 
@@ -13,7 +13,10 @@ restService.post('/hook', function (req, res) {
 
     try {
         var speech = 'empty speech';
-
+        var now = new time.Date();
+        var hour = now.setTimezone("America/Chicago").getHours();
+        var action = ['coverage.speedingTickets'];
+    
         if (req.body) {
             var requestBody = req.body;
 
