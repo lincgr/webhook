@@ -1,7 +1,8 @@
 {
   "name": "API.AI webhook",
   "description": "API.AI webhook",
-  "repository": "",
-  "logo": "",
-  "keywords": ["api.ai", "natural language"]
+  "repository": "https://github.com/lincgr/webhook",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["api.ai", "natural language"],
+  "image": "heroku/nodejs"
 }
