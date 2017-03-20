@@ -1,15 +1,15 @@
 'use strict';
-        const express = require('express');
-        const bodyParser = require('body-parser');
-        var time = require('time');
+
+const express = require('express');
+const bodyParser = require('body-parser');
+
+
 const restService = express();
-        restService.use(bodyParser.json());
+restService.use(bodyParser.json());
 
 restService.post('/hook', function (req, res) {
 
-    var now = new time.Date();
-    var hour = now.setTimezone("America/Chicago").getHours();
-    var action = ['coverage.speedingTickets'];
+    console.log('hook request');
 
     try {
         var speech = 'empty speech';
@@ -18,17 +18,15 @@ restService.post('/hook', function (req, res) {
             var requestBody = req.body;
 
             if (requestBody.result) {
-
                 speech = '';
+
                 if (requestBody.result.fulfillment) {
                     speech += requestBody.result.fulfillment.speech;
+                    speech += ' ';
                 }
-                if (action.indexOf(requestBody.result.action) >= 0) {
-                    if (hour >= 7 && hour <= 19) {
-                        speech += ' Please  write LegalShield Member Services at <a href=“http://home-c4.incontact.com/inContact/ChatClient/ChatClient.aspx?poc=785ac45b-4579-4198-9376-359d21b87f27&bu=4595114”> Chat Cient </a> . If we can be of any further assistance, please don’t hesitate to ask.';
-                    } else {
-                        speech += ' Please  write LegalShield Member Services at memberservices@legalshield.com. If we can be of any further assistance, please don’t hesitate to ask.';
-                    }
+
+                if (requestBody.result.action) {
+                    speech += 'action: ' + requestBody.result.action;
                 }
             }
         }
