@@ -28,10 +28,10 @@ restService.post('/hook', function (req, res) {
                     speech += requestBody.result.fulfillment.speech;
                 }
                 if (action.indexOf(requestBody.result.action) >= 0) {
-                    if (hour >= 7 && hour <= 19) {
-                        speech += ' Please  write LegalShield Member Services at https://goo.gl/YFgXPf. If we can be of any further assistance, please don’t hesitate to ask.';
+                    if (hour >= 7 && hour < 19) {
+                        speech += ' Please write to LegalShield Member Services at https://goo.gl/YFgXPf. If we can be of any further assistance, please don’t hesitate to ask.';
                     } else {
-                        speech += ' Please  write LegalShield Member Services at memberservices@legalshield.com. If we can be of any further assistance, please don’t hesitate to ask.';
+                        speech += ' Please write to LegalShield Member Services at memberservices@legalshield.com. If we can be of any further assistance, please don’t hesitate to ask.';
                     }
                 }
             }
