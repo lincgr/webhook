@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-var time = require('time');
+
 const restService = express();
 restService.use(bodyParser.json());
 
@@ -13,26 +13,20 @@ restService.post('/hook', function (req, res) {
 
     try {
         var speech = 'empty speech';
-        
-        var now = new time.Date();
-        var hour = now.setTimezone("America/Chicago").getHours();
-        var action = ['coverage.speedingTickets'];
-    
+
         if (req.body) {
             var requestBody = req.body;
-
+            console.log(requestBody);
             if (requestBody.result) {
-
                 speech = '';
+
                 if (requestBody.result.fulfillment) {
                     speech += requestBody.result.fulfillment.speech;
+                    speech += ' ';
                 }
-                if (action.indexOf(requestBody.result.action) >= 0) {
-                    if (hour >= 7 && hour < 19) {
-                        speech += ' Please write to LegalShield Member Services at https://goo.gl/YFgXPf. If we can be of any further assistance, please don’t hesitate to ask.';
-                    } else {
-                        speech += ' Please write to LegalShield Member Services at memberservices@legalshield.com. If we can be of any further assistance, please don’t hesitate to ask.';
-                    }
+
+                if (requestBody.result.action) {
+                    speech += 'action: ' + requestBody.result.action;
                 }
             }
         }
