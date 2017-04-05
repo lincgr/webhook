@@ -16,7 +16,7 @@ restService.post('/hook', function (req, res) {
 
         if (req.body) {
             var requestBody = req.body;
-            console.log(requestBody.originalRequest);
+            console.log(requestBody);
             if (requestBody.result) {
                 speech = '';
 
@@ -30,9 +30,7 @@ restService.post('/hook', function (req, res) {
                 }
             }
         }
-
         console.log('result: ', speech);
-
         return res.json({
             speech: speech,
             displayText: speech,
