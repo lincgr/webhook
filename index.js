@@ -2,10 +2,20 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const config = require('./config');
 
 const restService = express();
 restService.use(bodyParser.json());
+
+let fullName = function (userID, next) {
+    try {
+        let resourceUrl = url.parse(config.facebookGraph.domain);
+        resourceUrl.pathname = '/api/v1/blacklisted_words';
+        resourceUrl = url.format(resourceUrl);
+    } catch (err) {
+        console.error(err);
+    }
+};
 
 restService.post('/hook', function (req, res) {
 
@@ -15,10 +25,7 @@ restService.post('/hook', function (req, res) {
         var speech = 'empty speech';
 
         if (req.body) {
-            var data = req.body;
             var requestBody = req.body;
-            console.log("Body *****************")
-            console.log(data.originalRequest.data);
 
             if (requestBody.result) {
                 speech = '';
@@ -29,22 +36,20 @@ restService.post('/hook', function (req, res) {
                 }
             }
 
-            if (data.object === 'page') {
-                // Iterate over each entry - there may be multiple if batched
-                data.entry.forEach(function (entry) {
-                    var pageID = entry.id;
-                    var timeOfEvent = entry.time;
-
-                    // Iterate over each messaging event
-                    entry.messaging.forEach(function (event) {
-                        if (event.message) {
-                            receivedMessage(event);
-                        } else {
-                            console.log("Webhook received unknown event: ", event);
-                        }
-                    });
-                });
+            if (requestBody.originalRequest.data.sender.id) {
+                var senderId = requestBody.originalRequest.data.sender.id;
+                let fullName = function (senderId, next) {
+                    try {
+                        let resourceUrl = url.parse(config.facebookGraph.domain);
+                        resourceUrl.pathname = senderId + '?fields=first_name,last_name&access_token=' + config.facebookGraph.access_token;
+                        resourceUrl = url.format(resourceUrl);
+                        console.log(resourceUrl);
+                    } catch (err) {
+                        console.error(err);
+                    }
+                };
             }
+
         }
         return res.json({
             speech: speech,
