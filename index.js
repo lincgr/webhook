@@ -18,9 +18,9 @@ restService.post('/hook', function (req, res) {
             var data = req.body;
             var requestBody = req.body;
             console.log("Body *****************")
-            console.log(requestBody.object);
+            console.log(requestBody.data);
             console.log("-----");
-            console.log(requestBody.contexts);
+            console.log(requestBody.result.contexts);
 
             if (requestBody.result) {
                 speech = '';
